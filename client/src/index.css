@@ -3,9 +3,11 @@
 
 @theme {
   --color-logocolor1: #4caf50;
+  --color-hover: #556b2f;
   /* --color-tahiti: #3ab7bf;
   --color-bermuda: #78dcca; */
 }
+
 * {
   font-family: Outfit;
 }

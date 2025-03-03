@@ -25,9 +25,10 @@
 
 "use client"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { assets } from '../../assets/assets'
+import { AppContext } from "../../context/AppContext"
 
 
 export function Navbar() {
@@ -36,13 +37,14 @@ export function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+  const {navigate}=useContext(AppContext)
 
   return (
-    <div className="fixed top-4 z-50 w-full px-4">
+    <nav className="fixed top-4 z-50 w-full px-4">
       <div className="mx-auto max-w-7xl">
         <div className="rounded-full border border-[#4CAF50]/10 bg-white shadow-sm">
           <div className="flex h-16 items-center px-6">
-            <a href="#" className="flex items-center gap-2">
+            <a onClick={()=>navigate('/')} className="flex items-center gap-2 cursor-pointer">
               <img
                 src={assets.logo}
                 alt="Gyan Kosh Logo"
@@ -131,7 +133,7 @@ export function Navbar() {
           </div>
         </div>
       )}
-    </div>
+    </nav>
   )
 }
 

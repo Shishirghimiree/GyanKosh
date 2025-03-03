@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
+import { assets } from '../../assets/assets'
+import { AppContext } from '../../context/AppContext'
+import { Link } from 'react-router-dom'
 
 const CourseCard = ({course}) => {
+  const {currency,calculateRating} = useContext(AppContext)
   return (
-    <div>
-        <img src={course.courseThumnail} alt="" />
-        <div>
-          <h3>{course}</h3>
+    <Link to={`/courses/`+ course._id} onClick={()=>scrollTo(0,0)} className='border border-gray-500/30 pb-6 overflow-hidden rounded-lg '>
+        <img className='w-full' src={course.courseThumbnail} alt="" />
+        <div className='p-3 text-left'>
+          <h3 className='text-base font-semibold'>{course.courseTitle}</h3>
+          <p className='text-gray-500'>{course.educator.name}</p>
+          <div className='flex items-center space-x-2'>
+            <p>{calculateRating(course)}</p>
+            <div className='flex'>
+              {[...Array(5)].map((_,i)=>(<img key={i} src={i<Math.floor(calculateRating(course))? assets.star: assets.star_blank} alt=''className='w-3.5 h-3.5'/>
+              ))}
+            </div>
+            <p className='text-gray-500'>{course.courseRatings.length}</p>
+          </div>
+          <p className='text-base font-semibold text-gray-800'>{currency}{(course.coursePrice - course.discount *course.coursePrice /100).toFixed(2)}</p> 
         </div>
-    </div>
+    </Link>
   )
 }
 
@@ -19,11 +34,12 @@ export default CourseCard
 //! My Own Code started from here
 
 // import { BookOpen, Clock } from "lucide-react"
-// import { assets } from "../../assets/assets"
+// import { assets} from "../../assets/assets"
+// import { Link } from "react-router-dom"
 
 // export default function CourseCard() {
 //   return (
-//     <div className="w-full max-w-sm overflow-hidden rounded-lg bg-white shadow">
+//     <Link to={'/course'} onClick={()=>scrollTo(0,0)} className="w-full max-w-sm overflow-hidden rounded-lg bg-white shadow">
 //       {/* Image and Price Section */}
 //       <div className="relative">
 //         <img
@@ -46,7 +62,7 @@ export default CourseCard
 //             </span>
 //           </div>
 //           <div className="space-y-1 text-center">
-//             <h3 className="font-semibold text-xl text-gray-900 text-left">Introduction to Programming </h3>
+//             <h3 className="font-semibold text-xl text-gray-900 text-left">{} </h3>
 //             <p className="text-gray-600 text-base text-left">
 //               Master the essentials of Computer Science with our comprehensive...
 //             </p>
@@ -82,6 +98,6 @@ export default CourseCard
 //           Enroll Now
 //         </button>
 //       </div>
-//     </div>
+//     </Link>
 //   )
 // }
