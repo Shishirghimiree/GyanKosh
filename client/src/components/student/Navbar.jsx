@@ -29,8 +29,6 @@ import { useContext, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { assets } from '../../assets/assets'
 import { AppContext } from "../../context/AppContext"
-import CoursesList from "../../pages/student/CoursesList"
-
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -56,10 +54,10 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex flex-1 items-center justify-center gap-8">
-              <a href={'/course-list'} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium">
+              <a className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer"onClick={()=>navigate('/course-list')}>
                 Courses
               </a>
-              <a href="#" className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium">
+              <a onClick={()=>navigate('/about-us')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
                 About
               </a>
               <a href="#" className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium">
@@ -97,9 +95,8 @@ export function Navbar() {
             </div>
             <nav className="flex flex-col gap-4 p-4">
               <a
-                href={'/course-list'}
                 className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={toggleMenu}
+                onClick={()=>navigate('/course-list')}
               >
                 Courses
               </a>
