@@ -57,6 +57,9 @@ export function Navbar() {
               <a className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer"onClick={()=>navigate('/course-list')}>
                 Courses
               </a>
+              <a onClick={()=>navigate('/my-enrollments')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
+                My Enrollments
+              </a>
               <a onClick={()=>navigate('/about-us')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
                 About
               </a>
