@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { assets } from '../../assets/assets'
 import humanizeDuration from 'humanize-duration'
 import YouTube from 'react-youtube'
+import Rating from '../../components/student/Rating'
 
 const Player = () => {
 
@@ -79,18 +80,22 @@ const Player = () => {
               ))}
             </div>
           </div>
-
+            <div className='flex items-center gap-2 py-3 mt-10'>
+              <h1 className='text-xl font-bold'>Rate This Course:</h1>
+              <Rating initialRating={0}/>
+            </div>
           
         </div>  
 
 
       {/* Right Coln */}
-        <div>
+        <div className='md:mt-10'>
           {playerData?(
             <div>
               <YouTube videoId={playerData.lectureUrl.split('/').pop()} iframeClassName='w-full aspect-video'/>
-              <div>
+              <div className='flex justify-between items-center mt-1'>
                 <p>{playerData.chapter}.{playerData.lecture}{playerData.lectureTitle}</p>
+                <button className='text-logocolor1'>{false ? 'completed':'Mark Completed'}</button>
               </div>
             </div>
           )
