@@ -29,8 +29,14 @@ import { useContext, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { assets } from '../../assets/assets'
 import { AppContext } from "../../context/AppContext"
+import { useClerk,useUser,UserButton} from "@clerk/clerk-react"
 
 export function Navbar() {
+
+  const {openSignIn}=useClerk()
+  const {user} = useUser()
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -57,9 +63,13 @@ export function Navbar() {
               <a className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer"onClick={()=>navigate('/course-list')}>
                 Courses
               </a>
-              <a onClick={()=>navigate('/my-enrollments')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
+              { user &&
+              <>
+                <a onClick={()=>navigate('/my-enrollments')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
                 My Enrollments
               </a>
+              </>
+              }
               <a onClick={()=>navigate('/about-us')} className="text-[#4CAF50] hover:text-[#556B2F] transition-colors font-medium cursor-pointer">
                 About
               </a>
@@ -70,12 +80,17 @@ export function Navbar() {
 
             {/* Desktop Sign In/Get Started */}
             <div className="hidden md:flex items-center gap-4">
-              <a href="#" className="text-[#556B2F] hover:text-[#4CAF50] transition-colors font-medium">
-                Sign in
+              { user &&
+              <>
+                <a href="#" className="text-[#556B2F] hover:text-[#4CAF50] transition-colors font-medium">
+                Become Educator
               </a>
-              <button className="bg-[#4CAF50] hover:bg-[#556B2F] text-white rounded-full px-6 py-2 transition-colors">
-                Get Started
-              </button>
+              </>
+              }
+            { user ?<UserButton/> :
+              <button onClick={() => openSignIn()} className="bg-[#4CAF50] hover:bg-[#556B2F] text-white rounded-full px-6 py-2 transition-colors cursor-pointer">
+              Get Started
+            </button>}
             </div>
 
             {/* Mobile Menu Button */}
@@ -96,40 +111,67 @@ export function Navbar() {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            <nav className="flex flex-col gap-4 p-4">
+            <nav className="flex flex-col gap-4 p-4 items-center cursor-pointer">
               <a
                 className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={()=>navigate('/course-list')}
+                onClick={(event) => {
+                  navigate('/course-list');
+                  toggleMenu(event);
+                }}
               >
                 Courses
               </a>
-              <a
-                href="#"
+
+             { user &&
+             <>
+              <a 
                 className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={toggleMenu}
+                onClick={(event) => {
+                  navigate('/my-enrollments');
+                  toggleMenu(event);
+                }}
+              >
+                My Enrollments
+              </a>
+              </>
+              }
+
+              <a
+                className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
+                onClick={(event) => {
+                  navigate('/about-us');
+                  toggleMenu(event);
+                }}
               >
                 About
               </a>
               <a
-                href="#"
                 className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={toggleMenu}
+                onClick={(event) => {
+                  navigate('/');
+                  toggleMenu(event);
+                }}
               >
                 Contact
               </a>
-              <a
+              { user &&
+              <>
+                <a
                 href="#"
                 className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={toggleMenu}
-              >
-                Sign in
+                onClick={toggleMenu}>
+                Become Educator
               </a>
-              <button
+              </>
+              }
+              { user ?<UserButton/> :
+                <button 
                 className="bg-[#4CAF50] hover:bg-[#556B2F] text-white rounded-full px-6 py-2 transition-colors text-lg font-medium"
                 onClick={toggleMenu}
+                // onClick={e => openSignIn()}
               >
                 Get Started
-              </button>
+              </button>}
             </nav>
           </div>
         </div>
