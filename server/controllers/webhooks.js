@@ -80,7 +80,7 @@ export const stripeWebhooks = async(request,response)=>{
             payment_intent: paymentIntentId
         })
 
-        const {purchaseId} = session.data[0].metedata;
+        const {purchaseId} = session.data[0].metadata;
 
         const purchaseData = await Purchase.findById(purchaseId)
         const userData = await User.findById(purchaseData.userId)
@@ -107,7 +107,7 @@ export const stripeWebhooks = async(request,response)=>{
             payment_intent: paymentIntentId
         })
 
-        const {purchaseId} = session.data[0].metedata;
+        const {purchaseId} = session.data[0].metadata;
         const purchaseData = await Purchase.findById(purchaseId)
         purchaseData.status = 'failed'
 
