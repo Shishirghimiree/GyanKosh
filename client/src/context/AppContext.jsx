@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { dummyCourses } from "../assets/assets";
+// import { dummyCourses } from "../assets/assets";
 // import PropTypes from "prop-types";
 import { data, useNavigate } from "react-router-dom";
 import humanizeDuration from "humanize-duration";

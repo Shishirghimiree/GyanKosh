@@ -26,12 +26,16 @@
 "use client"
 
 import { useContext, useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Link, Menu, X } from "lucide-react"
 import { assets } from '../../assets/assets'
 import { AppContext } from "../../context/AppContext"
 import { useClerk,useUser,UserButton} from "@clerk/clerk-react"
+import axios from "axios"
+import { toast } from "react-toastify"
 
 export function Navbar() {
+
+
 
   const {openSignIn}=useClerk()
   const {user} = useUser()
@@ -42,8 +46,28 @@ export function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
-  const {navigate}=useContext(AppContext)
+  const {navigate,isEducator,backendUrl,setIsEducator,getToken}=useContext(AppContext)
 
+  const becomeEducator = async()=>{
+    try {
+      if(isEducator){
+        navigate('/educator')
+        return
+      }
+      const token = await getToken()
+      const {data} = await axios.get(backendUrl+'/api/educator/update-role',{headers:{Authorization:`Bearer ${token}`}})
+
+      if(data.success){
+        setIsEducator(true)
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+  
   return (
     <nav className="fixed top-4 z-50 w-full px-4">
       <div className="mx-auto max-w-7xl">
@@ -82,10 +106,7 @@ export function Navbar() {
             <div className="hidden md:flex items-center gap-4">
               { user &&
               <>
-                <a href="#" className="text-[#556B2F] hover:text-[#4CAF50] transition-colors font-medium">
-                Become Educator
-              </a>
-              </>
+              <button onClick={becomeEducator} className="text-[#556B2F] hover:text-[#4CAF50] transition-colors font-medium cursor-pointer">{isEducator ? 'Educator Dashboard':'Become Educator'}</button></>
               }
             { user ?<UserButton/> :
               <button onClick={() => openSignIn()} className="bg-[#4CAF50] hover:bg-[#556B2F] text-white rounded-full px-6 py-2 transition-colors cursor-pointer">
@@ -156,12 +177,7 @@ export function Navbar() {
               </a>
               { user &&
               <>
-                <a
-                href="#"
-                className="block px-2 py-1 text-lg font-medium text-[#556B2F] hover:text-[#4CAF50] transition-colors"
-                onClick={toggleMenu}>
-                Become Educator
-              </a>
+                <button onClick={becomeEducator} className="text-[#556B2F] hover:text-[#4CAF50] transition-colors font-medium cursor-pointer">{isEducator ? 'Educator Dashboard':'Become Educator'}</button>
               </>
               }
               { user ?<UserButton/> :

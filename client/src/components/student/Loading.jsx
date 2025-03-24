@@ -1,8 +1,22 @@
 "use client"
 import React from 'react'
 import { useState, useEffect } from "react"
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function Loading() {
+
+  const {path} = useParams()
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(path){
+      const timer = setTimeout(()=>{
+        navigate(`/${path}`)
+      },4000)
+      return ()=> clearTimeout(timer);
+    }
+  },[])
+
   const [loadingProgress, setLoadingProgress] = useState(0)
 
   // Simulate loading progress
