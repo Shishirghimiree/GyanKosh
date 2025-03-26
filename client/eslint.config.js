@@ -36,6 +36,6 @@ export default [
     },
   },
 ]
-'extends'[
+'extends':[
     'plugin:react/recommended'
 ]

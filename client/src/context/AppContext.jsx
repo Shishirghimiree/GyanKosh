@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 // import { dummyCourses } from "../assets/assets";
 // import PropTypes from "prop-types";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanize-duration";
 import {useAuth,useUser} from '@clerk/clerk-react';
 import axios from 'axios'
@@ -109,7 +109,7 @@ export const AppContextProvider = (props) => {
         const {data} = await axios.get(backendUrl+'/api/user/enrolled-courses',{headers:{Authorization:`Bearer ${token}`}})
 
         if(data.success){
-            setEnrolledCourses(data.enrolledCourses.reverse())
+        setEnrolledCourses(data.enrolledCourses.reverse())
         }else{
             toast.error(data.message)
         }

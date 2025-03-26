@@ -1,16 +1,21 @@
-import React, { use, useEffect, useRef, useState } from 'react'
+import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import uniqid from 'uniqid'
 import Quill from 'quill'
 import { assets } from '../../assets/assets';
+import { AppContext } from '../../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const AddCourse = () => {
+
+  const {backendUrl,getToken} = useContext(AppContext)
 
   const quillRef = useRef(null);
   const editorRef = useRef(null);
 
   const [courseTitle, setCourseTitle] = useState('')
   const [coursePrice , setCoursePrice] = useState(0)
-  const [discount , setDiscount] = useState(0)
+  const [courseDiscount , setDiscount] = useState(0)
   const [image , setImage] = useState(null)
   const [chapters , setChapters] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -88,6 +93,40 @@ const AddCourse = () => {
   };
 
   const handleSubmit = async(e)=>{
+    try {
+      e.preventDefault()
+      if(!image){
+        toast.error('Thumbnail Not Selected')
+      }
+      const courseData={
+        courseTitle,
+        courseDescription: quillRef.current.root.innerHTML,
+        coursePrice:Number(coursePrice),
+        courseDiscount:Number(courseDiscount),
+        courseContent:chapters,
+      }
+
+      const formData = new FormData()
+      formData.append('courseData',JSON.stringify(courseData))
+      formData.append('image',image)
+
+      const token = await getToken()
+      const {data} = await axios.post(backendUrl + '/api/educator/add-course',formData,{headers:{Authorization:`Bearer ${token}`}})
+
+      if(data.success){
+        toast.success(data.message)
+        setCourseTitle('')
+        setCoursePrice(0)
+        setDiscount(0)
+        setImage(null)
+        setChapters([])
+        quillRef.current.root.innerHTML=""
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
     e.preventDefault()
   };
 
@@ -132,7 +171,7 @@ const AddCourse = () => {
 
       <div>
         <p>Discount%</p>
-        <input onChange={e=> setDiscount(e.target.value)} value={discount} type='number' placeholder='0' min={0} max={100} className='outline-none md:py-2.5 py-2 w-28 px-3 rounded border border-gray-500' required/>
+        <input onChange={e=> setDiscount(e.target.value)} value={courseDiscount} type='number' placeholder='0' min={0} max={100} className='outline-none md:py-2.5 py-2 w-28 px-3 rounded border border-gray-500' required/>
       </div>
 
       {/* Adding chapters and lectures */}
