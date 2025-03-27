@@ -43,9 +43,13 @@ import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
 import herosectionimage from './herosectionimage.png'
 import aboutusmain_image from './about_us_ai.jpg'
+import employ1 from './1emp.jpg'
+import CEO from './Ceo.jpg'
 
 
 export const assets = {
+    employ1,
+    CEO,
     aboutusmain_image,
     herosectionimage,
     logo,

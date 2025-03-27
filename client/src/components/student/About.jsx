@@ -104,25 +104,25 @@ export default function AboutUs() {
               {
                 name: "Dr. Sarah Johnson",
                 role: "CEO & Founder",
-                image: "/placeholder.svg?height=300&width=300",
+                image: assets.CEO,
                 bio: "Former professor with 15+ years in educational technology.",
               },
               {
                 name: "Michael Chen",
                 role: "CTO",
-                image: "/placeholder.svg?height=300&width=300",
+                image: assets.employ1,
                 bio: "Tech innovator specializing in AI-enhanced learning systems.",
               },
               {
                 name: "Dr. Amara Okafor",
                 role: "Chief Learning Officer",
-                image:"/placeholder.svg?height=300&width=300",
+                image: assets.CEO,
                 bio: "Educational psychologist focused on effective learning methodologies.",
               },
               {
                 name: "James Rodriguez",
                 role: "Head of Product",
-                image: "/placeholder.svg?height=300&width=300",
+                image: assets.employ1,
                 bio: "UX specialist with a passion for creating intuitive learning experiences.",
               },
             ].map((member, index) => (
