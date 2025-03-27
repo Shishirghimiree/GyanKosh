@@ -8,6 +8,7 @@ import Rating from '../../components/student/Rating'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import Loading from '../../components/student/Loading'
+import Footer from '../../components/student/Footer'
 
 const Player = () => {
 
@@ -37,7 +38,7 @@ const Player = () => {
   const toggleSection = (index)=>{
     setOpenSections((prev)=>(
       {...prev,
-        [index]:!prev[index]
+        [index]:!prev[index],
       }
     ));
   };
@@ -128,16 +129,16 @@ const Player = () => {
                     <ul className='list-disc md:pl-10 pl-4 pr-4 py-2 text-gray-600 border-t border-gray-300'>
                       {chapter.chapterContent.map((lecture,i)=>(
                         <li key={i} className='flex items-start gap-2 py-1 '>
-                          <img src={progressData?.lectureCompleted?.includes(playerData.lectureId) ? assets.blue_tick_icon:assets.play_icon} alt="play_icon" className='w-4 h-4 mt-1' />  
+                          <img src={progressData?.lectureCompleted?.includes(lecture.lectureId) ? assets.blue_tick_icon:assets.play_icon} alt="play_icon" className='w-4 h-4 mt-1' />  
                             <div className='flex items-center justify-between w-full text-gray-800 text-xs md:text-default'>
                             <p>{lecture.lectureTitle}</p>
                             <div className='flex gap-2'>
                               {lecture.lectureUrl && <p 
                               onClick={()=>setPlayerData({
-                                ... lecture,chapter:index+1,lecture:i+1
+                                ... lecture,chapter:index + 1,lecture: i + 1
                               })}
                               className='text-logocolor1 cursor-pointer'>Watch</p>}
-                              <p>{humanizeDuration(lecture.lectureDuration * 60 *1000 ,{units:["h","m"]} )}</p>
+                              <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000 ,{units:["h","m"]} )}</p>
                             </div>
                           </div>
                         </li>
@@ -164,7 +165,7 @@ const Player = () => {
               iframeClassName='w-full aspect-video'/>
               <div className='flex justify-between items-center mt-1'>
                 <p>{playerData.chapter}.{playerData.lecture}{playerData.lectureTitle}</p>
-                <button onClick={() => markLectureAsCompleted(playerData.lectureId)} className='text-logocolor1'>{progressData?.lectureCompleted?.includes(playerData.lectureId) ? 'Completed' : 'Mark Completed'}</button>
+                <button onClick={()=> markLectureAsCompleted(playerData.lectureId)} className='text-logocolor1'>{progressData?.lectureCompleted?.includes(playerData.lectureId) ? 'Completed' : 'Mark Complete'} </button>
               </div>
             </div>
           )
@@ -173,6 +174,7 @@ const Player = () => {
         }
         </div>  
     </div>
+    <Footer/>
     </>
   ): <Loading/>
 }
